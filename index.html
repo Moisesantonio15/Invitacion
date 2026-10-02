@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Invitación Especial</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: #f8f4ef;
+            color: #40372f;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           PORTADA
+        ========================= */
+
+        #portada {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    rgba(35, 25, 20, 0.45),
+                    rgba(35, 25, 20, 0.45)
+                ),
+                url("https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1600&q=80");
+
+            background-size: cover;
+            background-position: center;
+
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #portada.cerrar {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .sobre {
+            width: min(90%, 450px);
+            padding: 55px 30px;
+
+            text-align: center;
+
+            background: rgba(255, 250, 245, 0.95);
+            border-radius: 5px;
+
+            box-shadow: 0 20px 60px rgba(0,0,0,.3);
+
+            animation: aparecer 1.5s ease;
+        }
+
+        .sobre .ornamento {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .sobre h1 {
+            font-size: 42px;
+            font-weight: normal;
+            margin-bottom: 15px;
+        }
+
+        .sobre p {
+            font-size: 17px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .boton {
+            display: inline-block;
+
+            padding: 14px 30px;
+
+            border: none;
+            border-radius: 50px;
+
+            background: #9a745c;
+            color: white;
+
+            font-size: 16px;
+            font-family: inherit;
+
+            text-decoration: none;
+            cursor: pointer;
+
+            transition: transform .3s, background .3s;
+        }
+
+        .boton:hover {
+            background: #765442;
+            transform: scale(1.05);
+        }
+
+
+        /* =========================
+           INVITACIÓN
+        ========================= */
+
+        #invitacion {
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        #invitacion.mostrar {
+            opacity: 1;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 40px 20px;
+
+            background:
+                linear-gradient(
+                    rgba(255,255,255,.45),
+                    rgba(255,255,255,.55)
+                ),
+                url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero .pequeno {
+            font-size: 17px;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .hero h2 {
+            font-size: clamp(55px, 12vw, 110px);
+            font-weight: normal;
+            line-height: 1;
+            color: #574638;
+        }
+
+        .hero .ampersand {
+            font-size: 50px;
+            color: #a98268;
+            margin: 15px 0;
+        }
+
+        .hero .frase {
+            font-size: 26px;
+            margin-top: 30px;
+        }
+
+
+        /* =========================
+           SECCIONES
+        ========================= */
+
+        section.contenido {
+            padding: 90px 25px;
+            text-align: center;
+        }
+
+        .contenedor {
+            width: min(900px, 100%);
+            margin: auto;
+        }
+
+        .titulo {
+            font-size: 38px;
+            font-weight: normal;
+            margin-bottom: 25px;
+        }
+
+        .texto {
+            max-width: 650px;
+            margin: auto;
+
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .fecha {
+            margin: 35px 0;
+
+            font-size: 30px;
+            letter-spacing: 4px;
+
+            color: #8e6954;
+        }
+
+
+        /* =========================
+           DATOS
+        ========================= */
+
+        .datos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+
+            margin: 55px auto;
+
+            max-width: 700px;
+        }
+
+        .tarjeta {
+            padding: 35px 20px;
+
+            background: white;
+
+            border-radius: 15px;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,.07);
+        }
+
+        .icono {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .tarjeta h3 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .tarjeta p {
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           CUENTA REGRESIVA
+        ========================= */
+
+        .contador {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+
+            margin-top: 40px;
+        }
+
+        .tiempo {
+            min-width: 90px;
+            padding: 18px 12px;
+
+            background: #fff;
+            border-radius: 12px;
+
+            box-shadow: 0 8px 25px rgba(0,0,0,.08);
+        }
+
+        .tiempo strong {
+            display: block;
+            font-size: 30px;
+            color: #936d56;
+        }
+
+        .tiempo span {
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+
+        /* =========================
+           FOTO
+        ========================= */
+
+        .foto {
+            width: 100%;
+            max-width: 850px;
+
+            height: 500px;
+
+            margin: auto;
+
+            border-radius: 10px;
+
+            object-fit: cover;
+
+            box-shadow: 0 15px 45px rgba(0,0,0,.15);
+        }
+
+
+        /* =========================
+           CONFIRMACIÓN
+        ========================= */
+
+        .confirmacion {
+            background: #e9ddd2;
+        }
+
+        .whatsapp {
+            background: #25D366;
+        }
+
+        .whatsapp:hover {
+            background: #1da851;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 60px 20px;
+
+            text-align: center;
+
+            background: #40372f;
+            color: white;
+        }
+
+        footer p {
+            font-size: 20px;
+        }
+
+
+        /* =========================
+           ANIMACIONES
+        ========================= */
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =========================
+           MÓVIL
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .sobre h1 {
+                font-size: 34px;
+            }
+
+            .datos {
+                grid-template-columns: 1fr;
+            }
+
+            .foto {
+                height: 350px;
+            }
+
+            .hero h2 {
+                font-size: 60px;
+            }
+
+            .titulo {
+                font-size: 32px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- =================================
+         PORTADA
+    ================================== -->
+
+    <div id="portada">
+
+        <div class="sobre">
+
+            <div class="ornamento">
+                ✨
+            </div>
+
+            <h1>Una invitación especial</h1>
+
+            <p>
+                Tenemos algo muy especial que compartir contigo.
+            </p>
+
+            <button class="boton" onclick="abrirInvitacion()">
+                💌 Abrir invitación
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================
+         INVITACIÓN
+    ================================== -->
+
+    <main id="invitacion">
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <p class="pequeno">
+                CON MUCHA ALEGRÍA
+            </p>
+
+            <h2>
+                María
+            </h2>
+
+            <div class="ampersand">
+                &
+            </div>
+
+            <h2>
+                Juan
+            </h2>
+
+            <p class="frase">
+                ¡Nos casamos!
+            </p>
+
+        </section>
+
+
+
+        <!-- MENSAJE -->
+
+        <section class="contenido">
+
+            <div class="contenedor">
+
+                <h2 class="titulo">
+                    Queremos compartirlo contigo
+                </h2>
+
+                <p class="texto">
+                    Después de tantos momentos compartidos,
+                    llegó el momento de celebrar una nueva etapa
+                    de nuestras vidas junto a las personas
+                    que más queremos.
+                </p>
+
+                <div class="fecha">
+                    15 · NOVIEMBRE · 2026
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- DATOS -->
+
+        <section class="contenido">
+
+            <div class="contenedor">
+
+                <h2 class="titulo">
+                    El gran día
+                </h2>
+
+                <div class="datos">
+
+                    <div class="tarjeta">
+
+                        <div class="icono">
+                            📍
+                        </div>
+
+                        <h3>
+                            Lugar
+                        </h3>
+
+                        <p>
+                            Salón de Eventos<br>
+                            Guayaquil, Ecuador
+                        </p>
+
+                    </div>
+
+
+                    <div class="tarjeta">
+
+                        <div class="icono">
+                            🕐
+                        </div>
+
+                        <h3>
+                            Hora
+                        </h3>
+
+                        <p>
+                            Ceremonia<br>
+                            19:00
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a
+                    class="boton"
+                    href="https://www.google.com/maps"
+                    target="_blank"
+                >
+                    📍 Ver ubicación
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- CUENTA REGRESIVA -->
+
+        <section class="contenido">
+
+            <div class="contenedor">
+
+                <h2 class="titulo">
+                    Falta muy poco
+                </h2>
+
+                <div class="contador">
+
+                    <div class="tiempo">
+                        <strong id="dias">0</strong>
+                        <span>Días</span>
+                    </div>
+
+                    <div class="tiempo">
+                        <strong id="horas">0</strong>
+                        <span>Horas</span>
+                    </div>
+
+                    <div class="tiempo">
+                        <strong id="minutos">0</strong>
+                        <span>Minutos</span>
+                    </div>
+
+                    <div class="tiempo">
+                        <strong id="segundos">0</strong>
+                        <span>Segundos</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- FOTO -->
+
+        <section class="contenido">
+
+            <div class="contenedor">
+
+                <img
+                    class="foto"
+                    src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80"
+                    alt="Fotografía"
+                >
+
+            </div>
+
+        </section>
+
+
+
+        <!-- CONFIRMACIÓN -->
+
+        <section class="contenido confirmacion">
+
+            <div class="contenedor">
+
+                <h2 class="titulo">
+                    ¿Nos acompañas?
+                </h2>
+
+                <p class="texto">
+                    Nos encantaría contar contigo en este día
+                    tan importante para nosotros.
+                </p>
+
+                <br>
+
+                <a
+                    class="boton whatsapp"
+                    href="https://wa.me/593999999999?text=Hola%2C%20confirmo%20mi%20asistencia%20a%20la%20boda."
+                    target="_blank"
+                >
+                    💬 Confirmar asistencia
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- FINAL -->
+
+        <footer>
+
+            <p>
+                ¡Te esperamos! ❤️
+            </p>
+
+            <br>
+
+            <small>
+                María & Juan · 2026
+            </small>
+
+        </footer>
+
+    </main>
+
+
+
+    <!-- =================================
+         JAVASCRIPT
+    ================================== -->
+
+    <script>
+
+        function abrirInvitacion() {
+
+            const portada =
+                document.getElementById("portada");
+
+            const invitacion =
+                document.getElementById("invitacion");
+
+            portada.classList.add("cerrar");
+
+            setTimeout(function () {
+
+                invitacion.classList.add("mostrar");
+
+            }, 500);
+
+        }
+
+
+
+        /* =========================
+           CUENTA REGRESIVA
+        ========================= */
+
+        const fechaEvento =
+            new Date("November 15, 2026 19:00:00").getTime();
+
+
+        function actualizarContador() {
+
+            const ahora = new Date().getTime();
+
+            const diferencia =
+                fechaEvento - ahora;
+
+
+            if (diferencia <= 0) {
+
+                document.getElementById("dias").textContent = "0";
+                document.getElementById("horas").textContent = "0";
+                document.getElementById("minutos").textContent = "0";
+                document.getElementById("segundos").textContent = "0";
+
+                return;
+            }
+
+
+            const dias =
+                Math.floor(
+                    diferencia / (1000 * 60 * 60 * 24)
+                );
+
+            const horas =
+                Math.floor(
+                    (diferencia / (1000 * 60 * 60)) % 24
+                );
+
+            const minutos =
+                Math.floor(
+                    (diferencia / (1000 * 60)) % 60
+                );
+
+            const segundos =
+                Math.floor(
+                    (diferencia / 1000) % 60
+                );
+
+
+            document.getElementById("dias").textContent =
+                dias;
+
+            document.getElementById("horas").textContent =
+                horas;
+
+            document.getElementById("minutos").textContent =
+                minutos;
+
+            document.getElementById("segundos").textContent =
+                segundos;
+        }
+
+
+        actualizarContador();
+
+        setInterval(actualizarContador, 1000);
+
+    </script>
+
+</body>
+</html>
